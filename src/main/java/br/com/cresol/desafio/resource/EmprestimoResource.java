@@ -16,10 +16,14 @@ import io.swagger.annotations.Api;
 @Path("/emprestimo")
 public class EmprestimoResource {
 	
+	
+	EmprestimoService emprestimoService = new EmprestimoService();
+	
+
 	@POST
 	@Path("/simular")
-	public SimulacaoEmprestimo simular(SimularEmprestimoPayload payload) {
-		return new EmprestimoService().simular(payload);
+	public SimulacaoEmprestimo simular(SimularEmprestimoPayload payload) throws Exception {		
+		return emprestimoService.simular(payload);
 	}
 
 }
