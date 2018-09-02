@@ -1,22 +1,17 @@
 package br.com.cresol.desafio.dto;
 
 import java.util.Date;
+import java.util.List;
 
-/**
- * @author evandro
- *
- */
-public class SimulacaoEmprestimo {
+public class ContratoEmprestimo {
 	
 	private String numeroDoContrato;
+	private Date dataDeContratacao;
 	private float valorDoContrato;
-	private float valorDaParcela;
 	private int quantidadeDeParcelas;
 	private float taxaDeJuros;
-	private Date dataDeValidade;
-	private Date data;
-	
-	private String cpfDoCliente;
+	private float iof;
+	private List<ParcelaEmprestimo> parcelas;
 	
 	public String getNumeroDoContrato() {
 		return numeroDoContrato;
@@ -24,17 +19,17 @@ public class SimulacaoEmprestimo {
 	public void setNumeroDoContrato(String numeroDoContrato) {
 		this.numeroDoContrato = numeroDoContrato;
 	}
+	public Date getDataDeContratacao() {
+		return dataDeContratacao;
+	}
+	public void setDataDeContratacao(Date dataDeContratacao) {
+		this.dataDeContratacao = dataDeContratacao;
+	}
 	public float getValorDoContrato() {
 		return valorDoContrato;
 	}
 	public void setValorDoContrato(float valorDoContrato) {
 		this.valorDoContrato = valorDoContrato;
-	}
-	public float getValorDaParcela() {
-		return valorDaParcela;
-	}
-	public void setValorDaParcela(float valorDaParcela) {
-		this.valorDaParcela = valorDaParcela;
 	}
 	public int getQuantidadeDeParcelas() {
 		return quantidadeDeParcelas;
@@ -48,23 +43,17 @@ public class SimulacaoEmprestimo {
 	public void setTaxaDeJuros(float taxaDeJuros) {
 		this.taxaDeJuros = taxaDeJuros;
 	}
-	public Date getDataDeValidade() {
-		return dataDeValidade;
+	public float getIof() {
+		return iof;
 	}
-	public void setDataDeValidade(Date dataDeValidade) {
-		this.dataDeValidade = dataDeValidade;
+	public void setIof(float iof) {
+		this.iof = iof;
 	}
-	public Date getData() {
-		return data;
+	public List<ParcelaEmprestimo> getParcelas() {
+		return parcelas;
 	}
-	public void setData(Date data) {
-		this.data = data;
+	public void setParcelas(List<ParcelaEmprestimo> parcelas) {
+		this.parcelas = parcelas;
 	}
-	public String getCpfDoCliente() {
-		return cpfDoCliente;
-	}
-	public void setCpfDoCliente(String cpfDoCliente) {
-		this.cpfDoCliente = cpfDoCliente;
-	}
-	
+
 }
