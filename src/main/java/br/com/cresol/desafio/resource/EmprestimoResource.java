@@ -2,24 +2,36 @@ package br.com.cresol.desafio.resource;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
 
-import br.com.cresol.desafio.dto.SimulacaoEmprestimo;
-import br.com.cresol.desafio.dto.SimularEmprestimoPayload;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import br.com.cresol.desafio.dto.Payload;
+import br.com.cresol.desafio.entity.TbContrato;
 import br.com.cresol.desafio.service.EmprestimoService;
-import io.swagger.annotations.Api;
 
 /**
  * @author evandro
  *
  */
-@Api
+
 @Path("/emprestimo")
 public class EmprestimoResource {
 	
 	@POST
 	@Path("/simular")
-	public SimulacaoEmprestimo simular(SimularEmprestimoPayload payload) {
-		return new EmprestimoService().simular(payload);
+	public Response simular(Payload payload) {
+		TbContrato contrato = new EmprestimoService().simular(payload);
+		ObjectMapper mapper = new ObjectMapper();
+		String response = null;
+		try {
+			response = mapper.writeValueAsString(contrato);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return Response.serverError().build();
+		}
+		return Response.ok(response).build();
 	}
 
 }
