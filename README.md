@@ -1,1 +1,1 @@
-# Desafio para Desenvolvimento Java - Cresol Confederação
+# Documentação pendente
