@@ -1,5 +1,6 @@
 package br.com.renanfretta.emprestimos_online.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -16,7 +17,9 @@ import lombok.Data;
 @Entity
 @Table(name = "simular_emprestimo")
 @Data
-public class SimularEmprestimo {
+public class SimularEmprestimo implements Serializable {
+
+	private static final long serialVersionUID = -1338556234061013006L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
