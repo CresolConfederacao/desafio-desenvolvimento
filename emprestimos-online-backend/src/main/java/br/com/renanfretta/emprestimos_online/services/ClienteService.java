@@ -16,4 +16,8 @@ public class ClienteService {
 		return clienteRepository.findByCpfAndEmail(cpf, email);
 	}
 
+	public Cliente salvar(Cliente cliente) {
+		return clienteRepository.save(cliente);
+	}
+
 }
