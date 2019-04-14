@@ -1,6 +1,7 @@
 package br.com.renanfretta.emprestimos_online.models;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
@@ -24,6 +27,11 @@ public class SimularEmprestimo implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer numeroContrato;
+	
+	@JsonProperty("numeroContratoFormatado")
+	public String getNumeroContratoFormatado() {
+		return new SimpleDateFormat("YYYYMMdd").format(getDataSimulacao()) + String.format("%06d", getNumeroContrato());
+	}
 	
 	@NotNull
 	@ManyToOne
