@@ -5,7 +5,9 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.renanfretta.emprestimos_online.bussiness.TaxaJurosBussiness;
+import br.com.renanfretta.emprestimos_online.bussiness.CalculoEmprestimoBussiness;
+import br.com.renanfretta.emprestimos_online.bussiness.ClienteBussiness;
+import br.com.renanfretta.emprestimos_online.bussiness.SimularEmprestimoBussiness;
 import br.com.renanfretta.emprestimos_online.models.SimularEmprestimo;
 import br.com.renanfretta.emprestimos_online.repositories.SimularEmprestimoRepository;
 import br.com.renanfretta.emprestimos_online.utils.CalendarUtil;
@@ -16,15 +18,24 @@ public class SimularEmprestimoService {
 	@Autowired
 	private SimularEmprestimoRepository simularEmprestimoRepository;
 	
+	@Autowired
+	private ClienteBussiness clienteBussiness;
+	
+	@Autowired
+	private SimularEmprestimoBussiness simularEmprestimoBussiness;
+	
+	@Autowired
+	private CalculoEmprestimoBussiness calculoEmprestimoBussiness;
+	
 	public SimularEmprestimo salvar(SimularEmprestimo simularEmprestimo) {
-		// RN: Validar a quantidade de parcelas náo pode ser maior que 24
-		// RN: Validar a quantidade de parcelas maior ou igua a 1
-		// RN: Validar valor maior que zero
+		clienteBussiness.validaCliente(simularEmprestimo.getCliente());
+		simularEmprestimoBussiness.validaValorContrato(simularEmprestimo.getValorContrato());
+		simularEmprestimoBussiness.validaQuantidadeParcelas(simularEmprestimo.getQuantidadeParcelas());
 		
 		Date dataSimulacao = new Date();
 		Date dataValidadeSimulacao = CalendarUtil.adicionarDiasNaDataInformada(dataSimulacao, 30);
-		double taxaJurosEmprestimo = TaxaJurosBussiness.getTaxaJurosCalculada(simularEmprestimo.getValorContrato(), simularEmprestimo.getQuantidadeParcelas());
-		double valorParcela = TaxaJurosBussiness.getValorParcelaCalculada(simularEmprestimo.getValorContrato(), simularEmprestimo.getQuantidadeParcelas(), simularEmprestimo.getTaxaJurosEmprestimo());
+		double taxaJurosEmprestimo = calculoEmprestimoBussiness.getTaxaJurosCalculada(simularEmprestimo.getValorContrato(), simularEmprestimo.getQuantidadeParcelas());
+		double valorParcela = calculoEmprestimoBussiness.getValorParcelaCalculada(simularEmprestimo.getValorContrato(), simularEmprestimo.getQuantidadeParcelas(), simularEmprestimo.getTaxaJurosEmprestimo());
 		
 		simularEmprestimo.setDataSimulacao(dataSimulacao);
 		simularEmprestimo.setDataValidadeSimulacao(dataValidadeSimulacao);
@@ -33,11 +44,5 @@ public class SimularEmprestimoService {
 		
 		return simularEmprestimoRepository.save(simularEmprestimo);
 	}
-	
-	
-//	R1 – Numero do Contrato
-//	O numero do contrato deve ser composto pela sequencia:
-//	AAAAMMDD+000000 onde 00000 sequencial de 6 dígitos
-
 
 }
