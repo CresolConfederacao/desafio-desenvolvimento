@@ -17,7 +17,7 @@ public class Cliente implements Serializable {
 	private static final long serialVersionUID = 6519931402625484981L;
 
 	@Id
-	private Integer cpf;
+	private Long cpf;
 
 	@NotNull
 	private String nome;
