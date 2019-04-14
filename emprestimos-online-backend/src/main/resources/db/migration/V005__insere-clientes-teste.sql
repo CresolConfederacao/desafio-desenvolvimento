@@ -1,0 +1,2 @@
+INSERT INTO cliente (cpf, nome, email) VALUES (58832591979, 'Maria da Silva', 'mariasilva@gmail.com');
+INSERT INTO cliente (cpf, nome, email) VALUES (05535067903, 'João Martins', 'joaomartins@yahoo.com.br');

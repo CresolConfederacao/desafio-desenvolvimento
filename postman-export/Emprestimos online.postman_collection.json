@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "6c12fde6-2fdc-4358-83d8-8485431d5648",
+		"name": "Emprestimos online",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Cliente - autenticar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "cpf",
+							"value": "58832591979",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "mariasilva@gmail.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/clientes/autenticar",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"clientes",
+						"autenticar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cliente - salvar novo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"cpf\": 99516287026,\n\t\"nome\": \"Juliana Castro\",\n\t\"email\": \"julianacastro@hotmail.com\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/clientes",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"clientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Simular Emprestimo - simular",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"numeroContrato\": null,\n\t\"cliente\" : {\n\t\t\"cpf\" : 58832591979,\n\t\t\"nome\" : \"Maria da Silva\",\n\t\t\"email\" : \"mariasilva@gmail.com\"\n\t},\n\t\"dataSimulacao\": \"1950-01-01\",\n\t\"dataValidadeSimulacao\": \"1950-01-01\",\n\t\"valorContrato\" : 1000.00,\n\t\"quantidadeParcelas\" : 12,\n\t\"valorParcela\" : 0,\n\t\"taxaJurosEmprestimo\" : 0\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/simulacoes/simular",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"simulacoes",
+						"simular"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
