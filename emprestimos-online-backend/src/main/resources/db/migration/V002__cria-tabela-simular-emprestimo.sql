@@ -1,5 +1,5 @@
 CREATE TABLE simular_emprestimo (
-	numero_contrato INT(6) PRIMARY KEY,
+	numero_contrato INT(6) PRIMARY KEY AUTO_INCREMENT,
 	cpf_cliente BIGINT(11) NOT NULL,
 	data_simulacao DATETIME NOT NULL,
 	data_validade_simulacao DATE NOT NULL,
