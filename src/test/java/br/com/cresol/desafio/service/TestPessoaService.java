@@ -88,9 +88,6 @@ public class TestPessoaService {
 		Assert.assertEquals(cpfPessoaExistente, pessoa.getCpf());
 		Assert.assertEquals(emailPessoaExistente, pessoa.getEmail());
 		Assert.assertNotEquals(nomePessoaExistente, pessoa.getNome());
-
-		System.out.println("deveRecuperarDadosAtualizadosDePessoaComMesmoCpfMasNomeDiferente:\n--> Existente:\n\t"
-				+ nomePessoaExistente + "\n--> Atualizado:\n\t" + pessoa.getNome());
 	}
 
 	@Test
@@ -129,9 +126,6 @@ public class TestPessoaService {
 		Assert.assertEquals(nomePessoaExistente, pessoa.getNome());
 		Assert.assertEquals(cpfPessoaExistente, pessoa.getCpf());
 		Assert.assertNotEquals(emailPessoaExistente, pessoa.getEmail());
-
-		System.out.println("deveRecuperarDadosAtualizadosDePessoaComMesmoCpfMasEmailDiferente:\n--> Existente:\n\t"
-				+ emailPessoaExistente + "\n--> Atualizado:\n\t" + pessoa.getEmail());
 	}
 
 	@Test(expected = ValidacaoException.class)

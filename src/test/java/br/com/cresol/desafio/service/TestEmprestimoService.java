@@ -90,8 +90,6 @@ public class TestEmprestimoService {
 		Assert.assertEquals("Diferença na quantidade de contratos inseridos:", 1, novosContratosNoMock.size());
 		Assert.assertEquals("O contrato inserido não é o esperado: ", simulacaoEmprestimo.getIdContrato().longValue(),
 				novosContratosNoMock.get(0).longValue());
-
-		System.out.println("deveEfetuarNovaSimulacaoDeEmprestimo:\n\t" + simulacaoEmprestimo);
 	}
 
 	@Test
@@ -149,8 +147,6 @@ public class TestEmprestimoService {
 				MockUtil.getPessoasAtualizadasNoMock(pessoaManager).size());
 		Assert.assertEquals("Diferença na quantidade de contratos inseridos:", 0,
 				MockUtil.getNovosContratosNoMock(contratoManager).size());
-
-		System.out.println("deveRecuperarSimulacaoDeDadosExistentes:\n\t" + simulacaoEmprestimo);
 	}
 
 	@Test
@@ -212,8 +208,6 @@ public class TestEmprestimoService {
 				novosContratosNoMock.get(0).longValue());
 		Assert.assertEquals("Diferença na quantidade de contratos removidos:", 0,
 				MockUtil.getContratosRemovidosDoMock(contratoManager).size());
-
-		System.out.println("deveRecuperarNovaSimulacaoParaPessoaExistente:\n\t" + simulacaoEmprestimo);
 	}
 
 	@Test(expected = ValidacaoException.class)
@@ -235,8 +229,6 @@ public class TestEmprestimoService {
 		final SimulacaoEmprestimo simulacaoEmprestimo = emprestimoService.simular(payload);
 
 		Assert.assertNull("Retornou uma simulação de empréstimo mesmo com CPF inválido!", simulacaoEmprestimo);
-
-		System.out.println("deveFalharSimulacaoPorCpfInvalido:\n\t" + simulacaoEmprestimo);
 	}
 
 	@Test(expected = ValidacaoException.class)
@@ -259,8 +251,6 @@ public class TestEmprestimoService {
 
 		Assert.assertNull("Retornou uma simulação de empréstimo mesmo com quantidade de parcelas acima do permitido!",
 				simulacaoEmprestimo);
-
-		System.out.println("deveFalharSimulacaoPorEmailInvalido:\n\t" + simulacaoEmprestimo);
 	}
 
 	@Test(expected = ValidacaoException.class)
@@ -283,7 +273,5 @@ public class TestEmprestimoService {
 
 		Assert.assertNull("Retornou uma simulação de empréstimo mesmo com quantidade de parcelas acima do permitido!",
 				simulacaoEmprestimo);
-
-		System.out.println("deveFalharSimulacaoPorQuantidadeParcelasAcimaPermitido:\n\t" + simulacaoEmprestimo);
 	}
 }

@@ -30,8 +30,6 @@ public class TestContratoEmprestimoService {
 				quantidadeParcelas);
 
 		Assert.assertNotNull("Contrato não encontrado!", contrato);
-
-		System.out.println("deveRecuperarDadosContratoExistente:\n\t" + contrato);
 	}
 
 	@Test
@@ -55,8 +53,6 @@ public class TestContratoEmprestimoService {
 		Assert.assertEquals("Diferença na quantidade de contratos inseridos:", 1, novosContratosNoMock.size());
 		Assert.assertEquals("O contrato inserido não é o esperado: ", contrato.getIdContrato(),
 				novosContratosNoMock.get(0).longValue());
-
-		System.out.println("deveRecuperarDadosInserindoNovoContrato:\n\t" + contrato);
 	}
 
 	@Test
@@ -107,9 +103,6 @@ public class TestContratoEmprestimoService {
 		Assert.assertEquals("Diferença na quantidade de contratos inseridos:", 1, novosContratosNoMock.size());
 		Assert.assertEquals("O contrato inserido não é o esperado: ", contrato.getIdContrato(),
 				novosContratosNoMock.get(0).longValue());
-
-		System.out.println("deveRecuperarNovosDadosPorContaDeContratoExpirado:\n--> Expirado:\n\t" + contratoExpirado
-				+ "\n--> Novo:\n\t" + contrato);
 	}
 
 	@Test
@@ -125,8 +118,6 @@ public class TestContratoEmprestimoService {
 			Assert.assertEquals(
 					String.format("Esperado <%s>, mas calculado <%s>", taxaJurosEsperada, taxaJurosCalculada), 0,
 					taxaJurosEsperada.compareTo(taxaJurosCalculada));
-
-			System.out.println("deveCalcularTaxaJurosEsperada - teste 1:\n\t" + taxaJurosCalculada);
 		}
 		{// * Teste 2:
 			final BigDecimal valorContrato = new BigDecimal(800);
@@ -139,8 +130,6 @@ public class TestContratoEmprestimoService {
 			Assert.assertEquals(
 					String.format("Esperado <%s>, mas calculado <%s>", taxaJurosEsperada, taxaJurosCalculada), 0,
 					taxaJurosEsperada.compareTo(taxaJurosCalculada));
-
-			System.out.println("deveCalcularTaxaJurosEsperada - teste 2:\n\t" + taxaJurosCalculada);
 		}
 		{// * Teste 3:
 			final BigDecimal valorContrato = new BigDecimal(1800);
@@ -153,8 +142,6 @@ public class TestContratoEmprestimoService {
 			Assert.assertEquals(
 					String.format("Esperado <%s>, mas calculado <%s>", taxaJurosEsperada, taxaJurosCalculada), 0,
 					taxaJurosEsperada.compareTo(taxaJurosCalculada));
-
-			System.out.println("deveCalcularTaxaJurosEsperada - teste 3:\n\t" + taxaJurosCalculada);
 		}
 		{// * Teste 4:
 			final BigDecimal valorContrato = new BigDecimal(500);
@@ -167,8 +154,6 @@ public class TestContratoEmprestimoService {
 			Assert.assertEquals(
 					String.format("Esperado <%s>, mas calculado <%s>", taxaJurosEsperada, taxaJurosCalculada), 0,
 					taxaJurosEsperada.compareTo(taxaJurosCalculada));
-
-			System.out.println("deveCalcularTaxaJurosEsperada - teste 4:\n\t" + taxaJurosCalculada);
 		}
 	}
 
@@ -186,8 +171,6 @@ public class TestContratoEmprestimoService {
 			Assert.assertEquals(
 					String.format("Esperado <%s>, mas calculado <%s>", valorParcelasEsperado, valorParcelasCalculado),
 					0, valorParcelasEsperado.compareTo(valorParcelasCalculado));
-
-			System.out.println("deveCalcularValorParcelasEsperado - teste 1:\n\t" + valorParcelasCalculado);
 		}
 		{// * Teste 2:
 			final BigDecimal valorContrato = new BigDecimal(1800);
@@ -201,8 +184,6 @@ public class TestContratoEmprestimoService {
 			Assert.assertEquals(
 					String.format("Esperado <%s>, mas calculado <%s>", valorParcelasEsperado, valorParcelasCalculado),
 					0, valorParcelasEsperado.compareTo(valorParcelasCalculado));
-
-			System.out.println("deveCalcularValorParcelasEsperado - teste 2:\n\t" + valorParcelasCalculado);
 		}
 		{// * Teste 3:
 			final BigDecimal valorContrato = new BigDecimal(800);
@@ -216,8 +197,6 @@ public class TestContratoEmprestimoService {
 			Assert.assertEquals(
 					String.format("Esperado <%s>, mas calculado <%s>", valorParcelasEsperado, valorParcelasCalculado),
 					0, valorParcelasEsperado.compareTo(valorParcelasCalculado));
-
-			System.out.println("deveCalcularValorParcelasEsperado - teste 3:\n\t" + valorParcelasCalculado);
 		}
 		{// * Teste 4:
 			final BigDecimal valorContrato = new BigDecimal(900);
@@ -231,8 +210,6 @@ public class TestContratoEmprestimoService {
 			Assert.assertEquals(
 					String.format("Esperado <%s>, mas calculado <%s>", valorParcelasEsperado, valorParcelasCalculado),
 					0, valorParcelasEsperado.compareTo(valorParcelasCalculado));
-
-			System.out.println("deveCalcularValorParcelasEsperado - teste 4:\n\t" + valorParcelasCalculado);
 		}
 	}
 
@@ -250,8 +227,6 @@ public class TestContratoEmprestimoService {
 		final Date dataValidadeCalculada = ContratoEmprestimoService.calculaDataValidade(dataSimulacao);
 
 		Assert.assertEquals(dataValidadeEsperada, dataValidadeCalculada);
-
-		System.out.println("deveCalcularDataValidadeEsperada:\n\t" + dataValidadeCalculada);
 	}
 
 	@Test
@@ -268,8 +243,6 @@ public class TestContratoEmprestimoService {
 		final boolean contratoExpirado = ContratoEmprestimoService.isContratoExpirado(dataValidadeDoContrato);
 
 		Assert.assertFalse(contratoExpirado);
-
-		System.out.println("deveAceitarDataValidadeDoContrato:\n\t" + dataValidadeDoContrato);
 	}
 
 	@Test
@@ -285,8 +258,6 @@ public class TestContratoEmprestimoService {
 		final boolean contratoExpirado = ContratoEmprestimoService.isContratoExpirado(dataValidadeDoContrato);
 
 		Assert.assertTrue(contratoExpirado);
-
-		System.out.println("deveConsiderarDataValidadeDoContratoExpirada:\n\t" + dataValidadeDoContrato);
 	}
 
 	@Test(expected = ValidacaoException.class)
@@ -302,8 +273,6 @@ public class TestContratoEmprestimoService {
 				quantidadeParcelas);
 
 		Assert.assertNull("Dados foram recuperados mesmo com CPF de pessoa inválido!", contrato);
-
-		System.out.println("deveFalharPorCpfPessoaInvalido:\n\t" + contrato);
 	}
 
 	@Test(expected = ValidacaoException.class)
@@ -319,8 +288,6 @@ public class TestContratoEmprestimoService {
 				quantidadeParcelas);
 
 		Assert.assertNull("Dados foram recuperados mesmo com valor de contrato nulo!", contrato);
-
-		System.out.println("deveFalharPorValorContratoNulo:\n\t" + contrato);
 	}
 
 	@Test(expected = ValidacaoException.class)
@@ -336,8 +303,6 @@ public class TestContratoEmprestimoService {
 				quantidadeParcelas);
 
 		Assert.assertNull("Dados foram recuperados mesmo com valor de contrato abaixo do mínimo exigido!", contrato);
-
-		System.out.println("deveFalharPorValorContratoAbaixoMinimo:\n\t" + contrato);
 	}
 
 	@Test(expected = ValidacaoException.class)
@@ -354,8 +319,6 @@ public class TestContratoEmprestimoService {
 				quantidadeParcelas);
 
 		Assert.assertNull("Dados foram recuperados mesmo com quantidade de parcelas nula!", contrato);
-
-		System.out.println("deveFalharPorQuantidadeParcelasNula:\n\t" + contrato);
 	}
 
 	@Test(expected = ValidacaoException.class)
@@ -373,8 +336,6 @@ public class TestContratoEmprestimoService {
 
 		Assert.assertNull("Dados foram recuperados mesmo com quantidade de parcelas abaixo do mínimo exigido!",
 				contrato);
-
-		System.out.println("deveFalharPorQuantidadeParcelasAbaixoDoMinimo:\n\t" + contrato);
 	}
 
 	@Test(expected = ValidacaoException.class)
@@ -392,7 +353,5 @@ public class TestContratoEmprestimoService {
 
 		Assert.assertNull("Dados foram recuperados mesmo com quantidade de parcelas abaixo do máximo permitido!",
 				contrato);
-
-		System.out.println("deveFalharPorQuantidadeParcelasAcimaDoMaximo:\n\t" + contrato);
 	}
 }
