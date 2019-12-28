@@ -2,11 +2,8 @@ package br.com.cresol.desafio.service;
 
 import java.util.Objects;
 
-import org.apache.commons.lang3.StringUtils;
-
 import br.com.cresol.desafio.dto.Pessoa;
 import br.com.cresol.desafio.manager.PessoaManager;
-import br.com.cresol.desafio.util.ValidacaoException;
 import br.com.cresol.desafio.util.ValidacaoUtil;
 
 public class PessoaService {
@@ -21,7 +18,7 @@ public class PessoaService {
 	}
 
 	public Pessoa getDadosPessoa(final String nome, final String cpf, final String email) throws Exception {
-		this.validaParametros(nome, cpf, email);
+		ValidacaoUtil.validaParametrosParaPessoas(nome, cpf, email);
 
 		Pessoa pessoa = this.pessoaManager.getPessoa(cpf);
 		if (pessoa == null) {
@@ -33,17 +30,4 @@ public class PessoaService {
 
 		return pessoa;
 	}
-
-	private void validaParametros(final String nome, final String cpf, final String email) throws ValidacaoException {
-		if (StringUtils.isBlank(nome)) {
-			throw new ValidacaoException("Necessário informar um nome!");
-		}
-		if (!ValidacaoUtil.isCpfValido(cpf)) {
-			throw new ValidacaoException("O CPF informado é inválido: " + String.valueOf(cpf));
-		}
-		if (!ValidacaoUtil.isEmailValido(email)) {
-			throw new ValidacaoException("O e-mail informado é inválido: " + String.valueOf(email));
-		}
-	}
-
 }

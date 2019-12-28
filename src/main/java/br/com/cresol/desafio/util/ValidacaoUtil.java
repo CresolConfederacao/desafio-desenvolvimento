@@ -13,6 +13,19 @@ public final class ValidacaoUtil {
 
 	private static final int QUANTIDADE_MAXIMA_DE_PARCELAS = 24;
 
+	public static void validaParametrosParaPessoas(final String nome, final String cpf, final String email)
+			throws ValidacaoException {
+		if (StringUtils.isBlank(nome)) {
+			throw new ValidacaoException("Necessário informar um nome!");
+		}
+		if (!ValidacaoUtil.isCpfValido(cpf)) {
+			throw new ValidacaoException("O CPF informado é inválido: " + String.valueOf(cpf));
+		}
+		if (!ValidacaoUtil.isEmailValido(email)) {
+			throw new ValidacaoException("O e-mail informado é inválido: " + String.valueOf(email));
+		}
+	}
+
 	public static void validaParametrosParaContrato(final String cpfPessoa, final BigDecimal valorContrato,
 			final Integer quantidadeParcelas) throws ValidacaoException {
 		if (!ValidacaoUtil.isCpfValido(cpfPessoa)) {
@@ -39,7 +52,7 @@ public final class ValidacaoUtil {
 	 * @param cpf {@link String} : CPF a ser validado.
 	 * @return boolean : <b>TRUE</b> caso o CPF seja válido.
 	 */
-	public static boolean isCpfValido(final String cpf) {
+	private static boolean isCpfValido(final String cpf) {
 		if (StringUtils.isBlank(cpf)) {
 			return false;
 		}
@@ -93,7 +106,7 @@ public final class ValidacaoUtil {
 	 * @param email E-mail a ser validado
 	 * @return Caso o e-mail seja aceito retornará true
 	 */
-	public static boolean isEmailValido(final String email) {
+	private static boolean isEmailValido(final String email) {
 		if (email == null) {
 			return false;
 		}
