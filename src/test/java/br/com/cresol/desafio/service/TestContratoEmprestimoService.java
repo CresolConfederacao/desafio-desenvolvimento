@@ -12,51 +12,14 @@ import br.com.cresol.desafio.dto.ContratoEmprestimo;
 import br.com.cresol.desafio.manager.ContratoEmprestimoManager;
 import br.com.cresol.desafio.mock.ContratoEmprestimoManagerMock;
 import br.com.cresol.desafio.util.CalculoUtil;
+import br.com.cresol.desafio.util.MockUtil;
 import br.com.cresol.desafio.util.ValidacaoException;
 
 public class TestContratoEmprestimoService {
 
-	private ContratoEmprestimoManager initContratoManagerMock() {
-		return this.initContratoManagerMock(true);
-	}
-
-	private ContratoEmprestimoManager initContratoManagerMock(final boolean efetuaPreCarga) {
-		final ContratoEmprestimoManagerMock mock = new ContratoEmprestimoManagerMock();
-		if (efetuaPreCarga) {
-			final Date dataSimulacao = new Date();
-
-			final Calendar calendarValidade = Calendar.getInstance();
-			calendarValidade.setTime(dataSimulacao);
-			calendarValidade.add(Calendar.DAY_OF_YEAR, 30);
-
-			// * Cleiton Janke:
-			mock.addContrato("008.674.449-67", new BigDecimal(1500), 10, new BigDecimal(195),
-					new BigDecimal(0.03, CalculoUtil.MATH_CONTEXT_TAXA_JUROS), dataSimulacao,
-					calendarValidade.getTime());
-			// * Charles Leclerc:
-			mock.addContrato("575.825.218-20", new BigDecimal(1800), 15, new BigDecimal(183),
-					new BigDecimal(0.035, CalculoUtil.MATH_CONTEXT_TAXA_JUROS), dataSimulacao,
-					calendarValidade.getTime());
-			// * Valteri Bottas:
-			mock.addContrato("936.256.079-80", new BigDecimal(2400), 12, new BigDecimal(272),
-					new BigDecimal(0.03, CalculoUtil.MATH_CONTEXT_TAXA_JUROS), dataSimulacao,
-					calendarValidade.getTime());
-			mock.zerarListasAuxiliaresDoMock();
-		}
-		return (ContratoEmprestimoManager) mock;
-	}
-
-	private List<Long> getNovosContratosNoMock(final ContratoEmprestimoManager contratoManager) {
-		return ((ContratoEmprestimoManagerMock) contratoManager).getListaContratosAdicionados();
-	}
-
-	private List<Long> getContratosRemovidosDoMock(final ContratoEmprestimoManager contratoManager) {
-		return ((ContratoEmprestimoManagerMock) contratoManager).getListaContratosRemovidos();
-	}
-
 	@Test
 	public void deveRecuperarDadosContratoExistente() throws Exception {
-		final ContratoEmprestimoManager contratoManager = this.initContratoManagerMock();
+		final ContratoEmprestimoManager contratoManager = MockUtil.initContratoManagerMock();
 
 		final String cpfPessoa = "008.674.449-67"; // * Cleiton Janke
 		final BigDecimal valorContrato = new BigDecimal(1500);
@@ -73,7 +36,7 @@ public class TestContratoEmprestimoService {
 
 	@Test
 	public void deveRecuperarDadosInserindoNovoContrato() throws Exception {
-		final ContratoEmprestimoManager contratoManager = this.initContratoManagerMock();
+		final ContratoEmprestimoManager contratoManager = MockUtil.initContratoManagerMock();
 
 		final String cpfPessoa = "429.142.204-05"; // * Lewis Hamilton
 		final BigDecimal valorContrato = new BigDecimal(800);
@@ -88,7 +51,7 @@ public class TestContratoEmprestimoService {
 		Assert.assertEquals(valorContrato, contrato.getValorContrato());
 		Assert.assertEquals(quantidadeParcelas, contrato.getQuantidadeParcelas());
 
-		final List<Long> novosContratosNoMock = this.getNovosContratosNoMock(contratoManager);
+		final List<Long> novosContratosNoMock = MockUtil.getNovosContratosNoMock(contratoManager);
 		Assert.assertEquals("Diferença na quantidade de contratos inseridos:", 1, novosContratosNoMock.size());
 		Assert.assertEquals("O contrato inserido não é o esperado: ", contrato.getIdContrato(),
 				novosContratosNoMock.get(0).longValue());
@@ -98,7 +61,7 @@ public class TestContratoEmprestimoService {
 
 	@Test
 	public void deveRecuperarNovosDadosPorContaDeContratoExpirado() throws Exception {
-		final ContratoEmprestimoManager contratoManagerSemPreCarga = this.initContratoManagerMock(false);
+		final ContratoEmprestimoManager contratoManagerSemPreCarga = MockUtil.initContratoManagerMock(false);
 
 		final String cpfPessoa = "008.674.449-67"; // * Cleiton Janke
 		final BigDecimal valorContrato = new BigDecimal(1500);
@@ -135,12 +98,12 @@ public class TestContratoEmprestimoService {
 
 		Assert.assertNotEquals(contratoExpirado.getIdContrato(), contrato.getIdContrato());
 
-		final List<Long> contratosRemovidosDoMock = this.getContratosRemovidosDoMock(contratoManagerSemPreCarga);
+		final List<Long> contratosRemovidosDoMock = MockUtil.getContratosRemovidosDoMock(contratoManagerSemPreCarga);
 		Assert.assertEquals("Diferença na quantidade de contratos removidos:", 1, contratosRemovidosDoMock.size());
 		Assert.assertEquals("O contrato removido não é o que estava expirado: ", contratoExpirado.getIdContrato(),
 				contratosRemovidosDoMock.get(0).longValue());
 
-		final List<Long> novosContratosNoMock = this.getNovosContratosNoMock(contratoManagerSemPreCarga);
+		final List<Long> novosContratosNoMock = MockUtil.getNovosContratosNoMock(contratoManagerSemPreCarga);
 		Assert.assertEquals("Diferença na quantidade de contratos inseridos:", 1, novosContratosNoMock.size());
 		Assert.assertEquals("O contrato inserido não é o esperado: ", contrato.getIdContrato(),
 				novosContratosNoMock.get(0).longValue());
@@ -328,7 +291,7 @@ public class TestContratoEmprestimoService {
 
 	@Test(expected = ValidacaoException.class)
 	public void deveFalharPorCpfPessoaInvalido() throws Exception {
-		final ContratoEmprestimoManager contratoManager = this.initContratoManagerMock();
+		final ContratoEmprestimoManager contratoManager = MockUtil.initContratoManagerMock();
 
 		final String cpfPessoa = "555.263.170-22"; // * Sebastian Vettel - CPF correto "550.263.170-22"
 		final BigDecimal valorContrato = new BigDecimal(1000);
@@ -345,7 +308,7 @@ public class TestContratoEmprestimoService {
 
 	@Test(expected = ValidacaoException.class)
 	public void deveFalharPorValorContratoNulo() throws Exception {
-		final ContratoEmprestimoManager contratoManager = this.initContratoManagerMock();
+		final ContratoEmprestimoManager contratoManager = MockUtil.initContratoManagerMock();
 
 		final String cpfPessoa = "550.263.170-22"; // * Sebastian Vettel
 		final BigDecimal valorContrato = null; // "sem valor de contrato informado"
@@ -362,7 +325,7 @@ public class TestContratoEmprestimoService {
 
 	@Test(expected = ValidacaoException.class)
 	public void deveFalharPorValorContratoAbaixoMinimo() throws Exception {
-		final ContratoEmprestimoManager contratoManager = this.initContratoManagerMock();
+		final ContratoEmprestimoManager contratoManager = MockUtil.initContratoManagerMock();
 
 		final String cpfPessoa = "550.263.170-22"; // * Sebastian Vettel
 		final BigDecimal valorContrato = new BigDecimal(0); // ("valor de contrato mínimo" > 0)
@@ -379,7 +342,7 @@ public class TestContratoEmprestimoService {
 
 	@Test(expected = ValidacaoException.class)
 	public void deveFalharPorQuantidadeParcelasNula() throws Exception {
-		final ContratoEmprestimoManager contratoManager = this.initContratoManagerMock();
+		final ContratoEmprestimoManager contratoManager = MockUtil.initContratoManagerMock();
 
 		final String cpfPessoa = "550.263.170-22"; // * Sebastian Vettel
 		final BigDecimal valorContrato = new BigDecimal(900);
@@ -397,7 +360,7 @@ public class TestContratoEmprestimoService {
 
 	@Test(expected = ValidacaoException.class)
 	public void deveFalharPorQuantidadeParcelasAbaixoDoMinimo() throws Exception {
-		final ContratoEmprestimoManager contratoManager = this.initContratoManagerMock();
+		final ContratoEmprestimoManager contratoManager = MockUtil.initContratoManagerMock();
 
 		final String cpfPessoa = "550.263.170-22"; // * Sebastian Vettel
 		final BigDecimal valorContrato = new BigDecimal(900);
@@ -416,7 +379,7 @@ public class TestContratoEmprestimoService {
 
 	@Test(expected = ValidacaoException.class)
 	public void deveFalharPorQuantidadeParcelasAcimaDoMaximo() throws Exception {
-		final ContratoEmprestimoManager contratoManager = this.initContratoManagerMock();
+		final ContratoEmprestimoManager contratoManager = MockUtil.initContratoManagerMock();
 
 		final String cpfPessoa = "550.263.170-22"; // * Sebastian Vettel
 		final BigDecimal valorContrato = new BigDecimal(900);

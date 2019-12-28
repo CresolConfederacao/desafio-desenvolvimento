@@ -7,6 +7,16 @@ import br.com.cresol.desafio.manager.PessoaManager;
 
 public class PessoaManagerImpl extends PessoaManager {
 
+	private static final PessoaManagerImpl instance = new PessoaManagerImpl();
+
+	public static PessoaManager getInstance() {
+		return instance;
+	}
+
+	private PessoaManagerImpl() {
+		super();
+	}
+
 	@Override
 	protected Map<String, Pessoa> recuperaPessoasPersistidas() {
 		// TODO-REVER - Implementar uma persistencia (ex.: diretório "standalone/data")
@@ -22,5 +32,4 @@ public class PessoaManagerImpl extends PessoaManager {
 	protected void persisteAtualizacaoDePessoa(Pessoa pessoa) {
 		// TODO-REVER - Implementar uma persistencia (ex.: diretório "standalone/data")
 	}
-
 }

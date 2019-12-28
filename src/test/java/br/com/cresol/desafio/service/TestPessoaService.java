@@ -7,31 +7,14 @@ import org.junit.Test;
 
 import br.com.cresol.desafio.dto.Pessoa;
 import br.com.cresol.desafio.manager.PessoaManager;
-import br.com.cresol.desafio.mock.PessoaManagerMock;
+import br.com.cresol.desafio.util.MockUtil;
 import br.com.cresol.desafio.util.ValidacaoException;
 
 public class TestPessoaService {
 
-	private PessoaManager initPessoaManagerMock() {
-		final PessoaManagerMock mock = new PessoaManagerMock();
-		mock.addPessoa("Cleiton Janke", "008.674.449-67", "cleiton.janke@gmail.com");
-		mock.addPessoa("Charles Leclerc", "575.825.218-20", "charles.leclerc@gmail.com");
-		mock.addPessoa("Valteri Bottas", "936.256.079-80", "valteri.bottas@gmail.com");
-		mock.zerarListasAuxiliaresDoMock();
-		return (PessoaManager) mock;
-	}
-
-	private List<String> getNovasPessoasNoMock(final PessoaManager pessoaManager) {
-		return ((PessoaManagerMock) pessoaManager).getListaPessoasAdicionadas();
-	}
-
-	private List<String> getPessoasAtualizadasNoMock(final PessoaManager pessoaManager) {
-		return ((PessoaManagerMock) pessoaManager).getListaPessoasAtualizadas();
-	}
-
 	@Test
 	public void deveRecuperarDadosPessoaExistente() throws Exception {
-		final PessoaManager pessoaManager = this.initPessoaManagerMock();
+		final PessoaManager pessoaManager = MockUtil.initPessoaManagerMock();
 
 		final String nome = "Cleiton Janke";
 		final String cpf = "008.674.449-67";
@@ -42,7 +25,7 @@ public class TestPessoaService {
 
 		Assert.assertNotNull("Pessoa não encontrada!", pessoa);
 		Assert.assertEquals("Diferença na quantidade de pessoas inseridas:", 0,
-				this.getNovasPessoasNoMock(pessoaManager).size());
+				MockUtil.getNovasPessoasNoMock(pessoaManager).size());
 		Assert.assertEquals(nome, pessoa.getNome());
 		Assert.assertEquals(cpf, pessoa.getCpf());
 		Assert.assertEquals(email, pessoa.getEmail());
@@ -50,7 +33,7 @@ public class TestPessoaService {
 
 	@Test
 	public void deveRecuperarDadosInserindoNovaPessoa() throws Exception {
-		final PessoaManager pessoaManager = this.initPessoaManagerMock();
+		final PessoaManager pessoaManager = MockUtil.initPessoaManagerMock();
 
 		final String nome = "Lewis Hamilton";
 		final String cpf = "429.142.204-05";
@@ -64,14 +47,14 @@ public class TestPessoaService {
 		Assert.assertEquals(cpf, pessoa.getCpf());
 		Assert.assertEquals(email, pessoa.getEmail());
 
-		final List<String> novasPessoasNoMock = this.getNovasPessoasNoMock(pessoaManager);
+		final List<String> novasPessoasNoMock = MockUtil.getNovasPessoasNoMock(pessoaManager);
 		Assert.assertEquals("Diferença na quantidade de pessoas inseridas:", 1, novasPessoasNoMock.size());
 		Assert.assertEquals("A pessoa inserida não é a esperada: ", cpf, novasPessoasNoMock.get(0));
 	}
 
 	@Test
 	public void deveRecuperarDadosAtualizadosDePessoaComMesmoCpfMasNomeDiferente() throws Exception {
-		final PessoaManager pessoaManager = this.initPessoaManagerMock();
+		final PessoaManager pessoaManager = MockUtil.initPessoaManagerMock();
 
 		final String nome = "Cleiton Edgar Janke Duarte";
 		final String cpf = "008.674.449-67";
@@ -92,12 +75,12 @@ public class TestPessoaService {
 
 		Assert.assertNotNull("Pessoa não encontrada!", pessoa);
 		Assert.assertEquals("Diferença na quantidade de pessoas inseridas:", 0,
-				this.getNovasPessoasNoMock(pessoaManager).size());
+				MockUtil.getNovasPessoasNoMock(pessoaManager).size());
 		Assert.assertEquals(nome, pessoa.getNome());
 		Assert.assertEquals(cpf, pessoa.getCpf());
 		Assert.assertEquals(email, pessoa.getEmail());
 
-		final List<String> pessoasAtualizadasNoMock = this.getPessoasAtualizadasNoMock(pessoaManager);
+		final List<String> pessoasAtualizadasNoMock = MockUtil.getPessoasAtualizadasNoMock(pessoaManager);
 		Assert.assertEquals("Diferença na quantidade de pessoas com dados atualizados:", 1,
 				pessoasAtualizadasNoMock.size());
 		Assert.assertEquals("A pessoa atualizada não é a esperada: ", cpf, pessoasAtualizadasNoMock.get(0));
@@ -112,7 +95,7 @@ public class TestPessoaService {
 
 	@Test
 	public void deveRecuperarDadosAtualizadosDePessoaComMesmoCpfMasEmailDiferente() throws Exception {
-		final PessoaManager pessoaManager = this.initPessoaManagerMock();
+		final PessoaManager pessoaManager = MockUtil.initPessoaManagerMock();
 
 		final String nome = "Valteri Bottas";
 		final String cpf = "936.256.079-80";
@@ -133,12 +116,12 @@ public class TestPessoaService {
 
 		Assert.assertNotNull("Pessoa não encontrada!", pessoa);
 		Assert.assertEquals("Diferença na quantidade de pessoas inseridas:", 0,
-				this.getNovasPessoasNoMock(pessoaManager).size());
+				MockUtil.getNovasPessoasNoMock(pessoaManager).size());
 		Assert.assertEquals(nome, pessoa.getNome());
 		Assert.assertEquals(cpf, pessoa.getCpf());
 		Assert.assertEquals(email, pessoa.getEmail());
 
-		final List<String> pessoasAtualizadasNoMock = this.getPessoasAtualizadasNoMock(pessoaManager);
+		final List<String> pessoasAtualizadasNoMock = MockUtil.getPessoasAtualizadasNoMock(pessoaManager);
 		Assert.assertEquals("Diferença na quantidade de pessoas com dados atualizados:", 1,
 				pessoasAtualizadasNoMock.size());
 		Assert.assertEquals("A pessoa atualizada não é a esperada: ", cpf, pessoasAtualizadasNoMock.get(0));
@@ -153,7 +136,7 @@ public class TestPessoaService {
 
 	@Test(expected = ValidacaoException.class)
 	public void deveFalharPorCPFInvalidoParaPessoa() throws Exception {
-		final PessoaManager pessoaManager = this.initPessoaManagerMock();
+		final PessoaManager pessoaManager = MockUtil.initPessoaManagerMock();
 
 		final String nome = "Sebastian Vettel";
 		final String cpf = "555.263.170-22"; // * CPF correto: "550.263.170-22"
@@ -167,7 +150,7 @@ public class TestPessoaService {
 
 	@Test(expected = ValidacaoException.class)
 	public void deveFalharPorEmailInvalidoParaPessoa() throws Exception {
-		final PessoaManager pessoaManager = this.initPessoaManagerMock();
+		final PessoaManager pessoaManager = MockUtil.initPessoaManagerMock();
 
 		final String nome = "Cleiton Janke";
 		final String cpf = "008.674.449-67";

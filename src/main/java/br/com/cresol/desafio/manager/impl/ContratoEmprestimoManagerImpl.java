@@ -7,6 +7,16 @@ import br.com.cresol.desafio.manager.ContratoEmprestimoManager;
 
 public class ContratoEmprestimoManagerImpl extends ContratoEmprestimoManager {
 
+	private static final ContratoEmprestimoManagerImpl instance = new ContratoEmprestimoManagerImpl();
+
+	public static ContratoEmprestimoManager getInstance() {
+		return instance;
+	}
+
+	private ContratoEmprestimoManagerImpl() {
+		super();
+	}
+
 	@Override
 	protected List<ContratoEmprestimo> recuperaContratosPersistidos() {
 		// TODO-REVER - Implementar uma persistencia (ex.: diretório "standalone/data")
@@ -22,5 +32,4 @@ public class ContratoEmprestimoManagerImpl extends ContratoEmprestimoManager {
 	protected void persisteRemocaoDeContrato(ContratoEmprestimo contrato) {
 		// TODO-REVER - Implementar uma persistencia (ex.: diretório "standalone/data")
 	}
-
 }
