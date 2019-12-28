@@ -1,10 +1,37 @@
 package br.com.cresol.desafio.util;
 
+import java.math.BigDecimal;
+import java.util.Objects;
+
 import org.apache.commons.lang3.StringUtils;
 
 public final class ValidacaoUtil {
 
 	private static final String IS_VALID_EMAIL = "[\\w&&[^_]][\\w-.+]+[@][\\w-]+[.][\\w-]+([.][\\w-]+)*";
+
+	private static final BigDecimal ZERO_AS_BIG_DECIMAL = new BigDecimal(0);
+
+	private static final int QUANTIDADE_MAXIMA_DE_PARCELAS = 24;
+
+	public static void validaParametrosParaContrato(final String cpfPessoa, final BigDecimal valorContrato,
+			final Integer quantidadeParcelas) throws ValidacaoException {
+		if (!ValidacaoUtil.isCpfValido(cpfPessoa)) {
+			throw new ValidacaoException(
+					"O CPF de pessoa informado para o contrato é inválido: " + String.valueOf(cpfPessoa));
+		}
+		if (!ValidacaoUtil.isValorContratoValido(valorContrato)) {
+			throw new ValidacaoException(
+					"O valor informado para o contrato é inválido: " + String.valueOf(valorContrato));
+		}
+		final int validaQuantidadeParcelas = ValidacaoUtil.validaQuantidadeParcelas(quantidadeParcelas);
+		if (validaQuantidadeParcelas < 0) {
+			throw new ValidacaoException("A quantidade de parcelas informada está abaixo do mínimo exigido: "
+					+ String.valueOf(quantidadeParcelas));
+		} else if (validaQuantidadeParcelas > 0) {
+			throw new ValidacaoException("A quantidade de parcelas informada está acima do máximo permitido: "
+					+ String.valueOf(quantidadeParcelas));
+		}
+	}
 
 	/**
 	 * Verifica se um CPF é válido.
@@ -71,5 +98,47 @@ public final class ValidacaoUtil {
 			return false;
 		}
 		return email.matches(IS_VALID_EMAIL);
+	}
+
+	/**
+	 * Valida se o valor do contrato está valido, sendo que <b>não deve ser nulo</b>
+	 * e ser <b>maior do que zero</b>.
+	 * 
+	 * @param valorContrato {@link BigDecimal} : valor do contrato.
+	 * @return boolean : retorna <b>TRUE</b> caso esteja válido.
+	 */
+	private static boolean isValorContratoValido(final BigDecimal valorContrato) {
+		if (Objects.isNull(valorContrato)) {
+			return false;
+		}
+		return (valorContrato.compareTo(ZERO_AS_BIG_DECIMAL) > 0);
+	}
+
+	/**
+	 * Valida a quantidade de parcelas informadas, com os seguintes critérios:<br>
+	 * ► Deve haver no mínimo "1 (uma)" parcela;<br>
+	 * ► Quantidade não deve ultrapassar a
+	 * {@link #QUANTIDADE_MAXIMA_DE_PARCELAS}.<br>
+	 * <br>
+	 * •• O retorno inteiro (int) indica se a quantidade é válida, com a seguinte
+	 * interpretação:<br>
+	 * ► Retorno negativo (-1): quantidade <b>inválida</b> por não atender ao
+	 * <b>mínimo exigido</b>;<br>
+	 * ► Retorno positivo (1): quantidade <b>inválida</b> por não atender ao
+	 * <b>máximo permitido</b>;<br>
+	 * ► Retorno zero (0): quantidade <b>está válida</b>.
+	 * 
+	 * @param quantidadeParcelas {@link Integer} : quantidade de parcelas a ser
+	 *                           validada.
+	 * @return int
+	 */
+	private static int validaQuantidadeParcelas(final Integer quantidadeParcelas) {
+		if (Objects.isNull(quantidadeParcelas) || quantidadeParcelas <= 0) {
+			return -1; // * Retorna negativo, pois a quantidade mínima não foi atendida.
+		}
+		if (quantidadeParcelas > QUANTIDADE_MAXIMA_DE_PARCELAS) {
+			return 1; // * Retorna positivo, pois a quantidade máxima não foi atendida.
+		}
+		return 0; // * Retorna zero, pois a quantidade está válida.
 	}
 }
