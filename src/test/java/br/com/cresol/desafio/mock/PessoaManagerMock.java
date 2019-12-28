@@ -10,6 +10,7 @@ import br.com.cresol.desafio.manager.PessoaManager;
 public class PessoaManagerMock extends PessoaManager {
 
 	private final List<String> listaPessoasAdicionados = new ArrayList<>();
+	private final List<String> listaPessoasAtualizadas = new ArrayList<>();
 
 	@Override
 	protected Map<String, Pessoa> recuperaPessoasPersistidas() {
@@ -22,11 +23,21 @@ public class PessoaManagerMock extends PessoaManager {
 		this.listaPessoasAdicionados.add(pessoa.getCpf());
 	}
 
-	public void zeraListaPessoasAdicionados() {
-		this.listaPessoasAdicionados.clear();
+	@Override
+	protected void persisteAtualizacaoDePessoa(final Pessoa pessoa) {
+		this.listaPessoasAtualizadas.add(pessoa.getCpf());
 	}
 
-	public List<String> getListaPessoasAdicionados() {
+	public void zerarListasAuxiliaresDoMock() {
+		this.listaPessoasAdicionados.clear();
+		this.listaPessoasAtualizadas.clear();
+	}
+
+	public List<String> getListaPessoasAdicionadas() {
 		return new ArrayList<>(this.listaPessoasAdicionados);
+	}
+
+	public List<String> getListaPessoasAtualizadas() {
+		return new ArrayList<>(this.listaPessoasAtualizadas);
 	}
 }

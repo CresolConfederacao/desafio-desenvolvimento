@@ -21,16 +21,22 @@ public abstract class PessoaManager {
 	}
 
 	public Pessoa addPessoa(final String nome, final String cpf, final String email) {
-		final Pessoa pessoa = new Pessoa();
-		pessoa.setNome(nome);
-		pessoa.setCpf(cpf);
-		pessoa.setEmail(email);
+		final Pessoa pessoa = new Pessoa(nome, cpf, email);
 		this.mapPessoas.put(cpf, pessoa);
 		this.persisteAdicaoDePessoa(pessoa);
+		return pessoa;
+	}
+
+	public Pessoa atualizarDadosPessoa(final String cpf, final String nome, final String email) {
+		final Pessoa pessoa = this.getPessoa(cpf);
+		pessoa.atualizarDados(nome, email);
+		this.persisteAtualizacaoDePessoa(pessoa);
 		return pessoa;
 	}
 
 	protected abstract Map<String, Pessoa> recuperaPessoasPersistidas();
 
 	protected abstract void persisteAdicaoDePessoa(final Pessoa pessoa);
+
+	protected abstract void persisteAtualizacaoDePessoa(final Pessoa pessoa);
 }

@@ -26,6 +26,9 @@ public class PessoaService {
 		Pessoa pessoa = this.pessoaManager.getPessoa(cpf);
 		if (pessoa == null) {
 			pessoa = this.pessoaManager.addPessoa(nome, cpf, email);
+		} else if (!pessoa.isMesmosDados(nome, cpf, email)) {
+			pessoa = null;
+			pessoa = this.pessoaManager.atualizarDadosPessoa(cpf, nome, email);
 		}
 
 		return pessoa;

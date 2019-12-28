@@ -18,4 +18,9 @@ public class PessoaManagerImpl extends PessoaManager {
 		// TODO-REVER - Implementar uma persistencia (ex.: diretório "standalone/data")
 	}
 
+	@Override
+	protected void persisteAtualizacaoDePessoa(Pessoa pessoa) {
+		// TODO-REVER - Implementar uma persistencia (ex.: diretório "standalone/data")
+	}
+
 }

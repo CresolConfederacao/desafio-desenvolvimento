@@ -17,12 +17,16 @@ public class TestPessoaService {
 		mock.addPessoa("Cleiton Janke", "008.674.449-67", "cleiton.janke@gmail.com");
 		mock.addPessoa("Charles Leclerc", "575.825.218-20", "charles.leclerc@gmail.com");
 		mock.addPessoa("Valteri Bottas", "936.256.079-80", "valteri.bottas@gmail.com");
-		mock.zeraListaPessoasAdicionados();
+		mock.zerarListasAuxiliaresDoMock();
 		return (PessoaManager) mock;
 	}
 
 	private List<String> getNovasPessoasNoMock(final PessoaManager pessoaManager) {
-		return ((PessoaManagerMock) pessoaManager).getListaPessoasAdicionados();
+		return ((PessoaManagerMock) pessoaManager).getListaPessoasAdicionadas();
+	}
+
+	private List<String> getPessoasAtualizadasNoMock(final PessoaManager pessoaManager) {
+		return ((PessoaManagerMock) pessoaManager).getListaPessoasAtualizadas();
 	}
 
 	@Test
@@ -63,6 +67,88 @@ public class TestPessoaService {
 		final List<String> novasPessoasNoMock = this.getNovasPessoasNoMock(pessoaManager);
 		Assert.assertEquals("Diferença na quantidade de pessoas inseridas:", 1, novasPessoasNoMock.size());
 		Assert.assertEquals("A pessoa inserida não é a esperada: ", cpf, novasPessoasNoMock.get(0));
+	}
+
+	@Test
+	public void deveRecuperarDadosAtualizadosDePessoaComMesmoCpfMasNomeDiferente() throws Exception {
+		final PessoaManager pessoaManager = this.initPessoaManagerMock();
+
+		final String nome = "Cleiton Edgar Janke Duarte";
+		final String cpf = "008.674.449-67";
+		final String email = "cleiton.janke@gmail.com";
+
+		final String nomePessoaExistente;
+		final String cpfPessoaExistente;
+		final String emailPessoaExistente;
+		{
+			final Pessoa pessoaExistente = pessoaManager.getPessoa(cpf);
+			nomePessoaExistente = pessoaExistente.getNome();
+			cpfPessoaExistente = pessoaExistente.getCpf();
+			emailPessoaExistente = pessoaExistente.getEmail();
+		}
+
+		final PessoaService pessoaService = new PessoaService(pessoaManager);
+		final Pessoa pessoa = pessoaService.getDadosPessoa(nome, cpf, email);
+
+		Assert.assertNotNull("Pessoa não encontrada!", pessoa);
+		Assert.assertEquals("Diferença na quantidade de pessoas inseridas:", 0,
+				this.getNovasPessoasNoMock(pessoaManager).size());
+		Assert.assertEquals(nome, pessoa.getNome());
+		Assert.assertEquals(cpf, pessoa.getCpf());
+		Assert.assertEquals(email, pessoa.getEmail());
+
+		final List<String> pessoasAtualizadasNoMock = this.getPessoasAtualizadasNoMock(pessoaManager);
+		Assert.assertEquals("Diferença na quantidade de pessoas com dados atualizados:", 1,
+				pessoasAtualizadasNoMock.size());
+		Assert.assertEquals("A pessoa atualizada não é a esperada: ", cpf, pessoasAtualizadasNoMock.get(0));
+
+		Assert.assertEquals(cpfPessoaExistente, pessoa.getCpf());
+		Assert.assertEquals(emailPessoaExistente, pessoa.getEmail());
+		Assert.assertNotEquals(nomePessoaExistente, pessoa.getNome());
+
+		System.out.println("deveRecuperarDadosAtualizadosDePessoaComMesmoCpfMasNomeDiferente:\n--> Existente:\n\t"
+				+ nomePessoaExistente + "\n--> Atualizado:\n\t" + pessoa.getNome());
+	}
+
+	@Test
+	public void deveRecuperarDadosAtualizadosDePessoaComMesmoCpfMasEmailDiferente() throws Exception {
+		final PessoaManager pessoaManager = this.initPessoaManagerMock();
+
+		final String nome = "Valteri Bottas";
+		final String cpf = "936.256.079-80";
+		final String email = "bottas@mercedes.com";
+
+		final String nomePessoaExistente;
+		final String cpfPessoaExistente;
+		final String emailPessoaExistente;
+		{
+			final Pessoa pessoaExistente = pessoaManager.getPessoa(cpf);
+			nomePessoaExistente = pessoaExistente.getNome();
+			cpfPessoaExistente = pessoaExistente.getCpf();
+			emailPessoaExistente = pessoaExistente.getEmail();
+		}
+
+		final PessoaService pessoaService = new PessoaService(pessoaManager);
+		final Pessoa pessoa = pessoaService.getDadosPessoa(nome, cpf, email);
+
+		Assert.assertNotNull("Pessoa não encontrada!", pessoa);
+		Assert.assertEquals("Diferença na quantidade de pessoas inseridas:", 0,
+				this.getNovasPessoasNoMock(pessoaManager).size());
+		Assert.assertEquals(nome, pessoa.getNome());
+		Assert.assertEquals(cpf, pessoa.getCpf());
+		Assert.assertEquals(email, pessoa.getEmail());
+
+		final List<String> pessoasAtualizadasNoMock = this.getPessoasAtualizadasNoMock(pessoaManager);
+		Assert.assertEquals("Diferença na quantidade de pessoas com dados atualizados:", 1,
+				pessoasAtualizadasNoMock.size());
+		Assert.assertEquals("A pessoa atualizada não é a esperada: ", cpf, pessoasAtualizadasNoMock.get(0));
+
+		Assert.assertEquals(nomePessoaExistente, pessoa.getNome());
+		Assert.assertEquals(cpfPessoaExistente, pessoa.getCpf());
+		Assert.assertNotEquals(emailPessoaExistente, pessoa.getEmail());
+
+		System.out.println("deveRecuperarDadosAtualizadosDePessoaComMesmoCpfMasEmailDiferente:\n--> Existente:\n\t"
+				+ emailPessoaExistente + "\n--> Atualizado:\n\t" + pessoa.getEmail());
 	}
 
 	@Test(expected = ValidacaoException.class)
