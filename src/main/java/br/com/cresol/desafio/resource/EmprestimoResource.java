@@ -45,22 +45,32 @@ public class EmprestimoResource {
 			final SimulacaoEmprestimo simulacaoEmprestimo = new EmprestimoService(pessoaService, contratoService)
 					.simular(payload);
 			return Response.ok(simulacaoEmprestimo).build();
-
 		} catch (Exception e) {
-			final Status statusHttp;
-			final String logMessage;
-			if (e instanceof ValidacaoException) {
-				statusHttp = Status.BAD_REQUEST;
-				logMessage = "Problema com os parâmetros da requisição.";
-			} else {
-				statusHttp = Status.INTERNAL_SERVER_ERROR;
-				logMessage = "Erro no processamento da requisição.";
-			}
-			final SimulacaoFalha falha = new SimulacaoFalha();
-			falha.setDescricaoFalha(e.getMessage());
-			logger.log(Level.SEVERE, logMessage, e);
-			return Response.status(statusHttp).entity(falha).build();
+			return this.trataFalhaSimulacao(e);
 		}
+	}
+
+	private Response trataFalhaSimulacao(final Throwable exception) {
+		final Status statusHttp;
+		final Level logLevel;
+		final String logMessage;
+		final Throwable logThrowable;
+		if (exception instanceof ValidacaoException) {
+			statusHttp = Status.BAD_REQUEST;
+			logLevel = Level.WARNING;
+			logMessage = String.format("HTTP Status %s - Problema com os parâmetros da requisição - Validação: %s",
+					statusHttp, exception.getMessage());
+			logThrowable = null;
+		} else {
+			statusHttp = Status.INTERNAL_SERVER_ERROR;
+			logLevel = Level.SEVERE;
+			logMessage = String.format("HTTP Status %s - Erro no processamento da requisição", statusHttp);
+			logThrowable = exception;
+		}
+		final SimulacaoFalha falha = new SimulacaoFalha();
+		falha.setDescricaoFalha(exception.getMessage());
+		logger.log(logLevel, logMessage, logThrowable);
+		return Response.status(statusHttp).entity(falha).build();
 	}
 
 }
