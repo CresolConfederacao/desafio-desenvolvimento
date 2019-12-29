@@ -41,7 +41,7 @@ public class TestEmprestimoService {
 
 		final SimularEmprestimoPayload payload = new SimularEmprestimoPayload();
 		payload.setNome("Lando Norris");
-		payload.setCpf("673.350.557-68");
+		payload.setCpfAsString("673.350.557-68");
 		payload.setEmail("lando.norris@gmail.com");
 		payload.setValorContrato(new BigDecimal(2400));
 		payload.setQuantidadeParcelas(10);
@@ -85,7 +85,8 @@ public class TestEmprestimoService {
 
 		final List<String> novasPessoasNoMock = MockUtil.getNovasPessoasNoMock(pessoaManager);
 		Assert.assertEquals("Diferença na quantidade de pessoas inseridas:", 1, novasPessoasNoMock.size());
-		Assert.assertEquals("A pessoa inserida não é a esperada: ", payload.getCpf(), novasPessoasNoMock.get(0));
+		Assert.assertEquals("A pessoa inserida não é a esperada: ", payload.getCpfAsString(),
+				novasPessoasNoMock.get(0));
 		final List<Long> novosContratosNoMock = MockUtil.getNovosContratosNoMock(contratoManager);
 		Assert.assertEquals("Diferença na quantidade de contratos inseridos:", 1, novosContratosNoMock.size());
 		Assert.assertEquals("O contrato inserido não é o esperado: ", simulacaoEmprestimo.getIdContrato().longValue(),
@@ -99,7 +100,7 @@ public class TestEmprestimoService {
 
 		final SimularEmprestimoPayload payload = new SimularEmprestimoPayload();
 		payload.setNome("Cleiton Janke");
-		payload.setCpf("008.674.449-67");
+		payload.setCpfAsString("008.674.449-67");
 		payload.setEmail("cleiton.janke@gmail.com");
 		payload.setValorContrato(new BigDecimal(1500));
 		payload.setQuantidadeParcelas(10);
@@ -156,7 +157,7 @@ public class TestEmprestimoService {
 
 		final SimularEmprestimoPayload payload = new SimularEmprestimoPayload();
 		payload.setNome("Charles Leclerc");
-		payload.setCpf("575.825.218-20");
+		payload.setCpfAsString("575.825.218-20");
 		payload.setEmail("charles.leclerc@gmail.com");
 		payload.setValorContrato(new BigDecimal(600));
 		payload.setQuantidadeParcelas(6);
@@ -217,7 +218,7 @@ public class TestEmprestimoService {
 
 		final SimularEmprestimoPayload payload = new SimularEmprestimoPayload();
 		payload.setNome("Sebastian Vettel");
-		payload.setCpf("555.263.170-22"); // * CPF correto: "550.263.170-22"
+		payload.setCpfAsString("555.263.170-22"); // * CPF correto: "550.263.170-22"
 		payload.setEmail("sebastian.vettel@gmail.com");
 		payload.setValorContrato(new BigDecimal(1000));
 		payload.setQuantidadeParcelas(10);
@@ -238,7 +239,7 @@ public class TestEmprestimoService {
 
 		final SimularEmprestimoPayload payload = new SimularEmprestimoPayload();
 		payload.setNome("Valteri Bottas");
-		payload.setCpf("936.256.079-80");
+		payload.setCpfAsString("936.256.079-80");
 		payload.setEmail("valteri.bottas@gmail.");
 		payload.setValorContrato(new BigDecimal(1000));
 		payload.setQuantidadeParcelas(10);
@@ -260,7 +261,7 @@ public class TestEmprestimoService {
 
 		final SimularEmprestimoPayload payload = new SimularEmprestimoPayload();
 		payload.setNome("Sebastian Vettel");
-		payload.setCpf("550.263.170-22");
+		payload.setCpfAsString("550.263.170-22");
 		payload.setEmail("sebastian.vettel@gmail.com");
 		payload.setValorContrato(new BigDecimal(1000));
 		payload.setQuantidadeParcelas(25); // "máximo permitido = 24"

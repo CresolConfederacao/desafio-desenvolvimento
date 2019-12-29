@@ -2,6 +2,8 @@ package br.com.cresol.desafio.dto;
 
 import java.math.BigDecimal;
 
+import br.com.cresol.desafio.util.PayloadUtil;
+
 /**
  * @author evandro
  *
@@ -16,7 +18,7 @@ public class SimularEmprestimoPayload {
 	}
 
 	private String nome;
-	private String cpf;
+	private Long cpf;
 	private String email;
 	private BigDecimal valorContrato;
 	private Integer quantidadeParcelas;
@@ -29,12 +31,20 @@ public class SimularEmprestimoPayload {
 		this.nome = nome;
 	}
 
-	public String getCpf() {
+	public Long getCpf() {
 		return this.cpf;
 	}
 
-	public void setCpf(final String cpf) {
+	public String getCpfAsString() {
+		return PayloadUtil.parseCpfToString(this.cpf);
+	}
+
+	public void setCpf(final Long cpf) {
 		this.cpf = cpf;
+	}
+
+	public void setCpfAsString(final String cpf) {
+		this.cpf = PayloadUtil.parseCpfToLong(cpf);
 	}
 
 	public String getEmail() {

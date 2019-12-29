@@ -24,7 +24,7 @@ public class EmprestimoService {
 			throw new Exception("Não foram recebidos os dados da requisição.");
 		}
 
-		final Pessoa pessoa = this.pessoaService.getDadosPessoa(payload.getNome(), payload.getCpf(),
+		final Pessoa pessoa = this.pessoaService.getDadosPessoa(payload.getNome(), payload.getCpfAsString(),
 				payload.getEmail());
 		if (pessoa == null) {
 			throw new Exception(

@@ -7,7 +7,11 @@ import org.apache.commons.lang3.StringUtils;
 
 public final class ValidacaoUtil {
 
-	private static final String IS_VALID_EMAIL = "[\\w&&[^_]][\\w-.+]+[@][\\w-]+[.][\\w-]+([.][\\w-]+)*";
+	protected static final int TAMANHO_CPF_NUMERICO = 11;
+
+	private static final String REGEX_LIMPEZA_CPF = "[\\.\\-\\/]";
+
+	private static final String REGEX_VALIDACAO_EMAIL = "[\\w&&[^_]][\\w-.+]+[@][\\w-]+[.][\\w-]+([.][\\w-]+)*";
 
 	private static final BigDecimal ZERO_AS_BIG_DECIMAL = new BigDecimal(0);
 
@@ -58,15 +62,15 @@ public final class ValidacaoUtil {
 			return false;
 		}
 
-		String cpfNumerico = cpf.trim().replaceAll("[\\.\\-\\/]", "");
+		String cpfNumerico = cpf.trim().replaceAll(REGEX_LIMPEZA_CPF, "");
 		if (!StringUtils.isNumeric(cpfNumerico)) {
 			return false;
 		}
 
 		boolean cpfValido = false;
-		if (cpfNumerico.length() == 11) {
-			int[] digitos = new int[11];
-			for (int i = 0; i < 11; i++) {
+		if (cpfNumerico.length() == TAMANHO_CPF_NUMERICO) {
+			int[] digitos = new int[TAMANHO_CPF_NUMERICO];
+			for (int i = 0; i < TAMANHO_CPF_NUMERICO; i++) {
 				try {
 					digitos[i] = Integer.parseInt(String.valueOf(cpfNumerico.charAt(i)));
 				} catch (NumberFormatException e) {
@@ -111,7 +115,7 @@ public final class ValidacaoUtil {
 		if (email == null) {
 			return false;
 		}
-		return email.matches(IS_VALID_EMAIL);
+		return email.matches(REGEX_VALIDACAO_EMAIL);
 	}
 
 	/**
