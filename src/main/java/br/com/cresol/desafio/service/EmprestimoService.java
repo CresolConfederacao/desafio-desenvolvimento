@@ -21,7 +21,7 @@ public class EmprestimoService {
 
 	public SimulacaoEmprestimo simular(final SimularEmprestimoPayload payload) throws Exception {
 		if (payload == null) {
-			throw new Exception("Não foram informados os dados da requisição!");
+			throw new Exception("Não foram recebidos os dados da requisição.");
 		}
 
 		final Pessoa pessoa = this.pessoaService.getDadosPessoa(payload.getNome(), payload.getCpf(),

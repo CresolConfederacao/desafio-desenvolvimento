@@ -12,7 +12,7 @@ public class PessoaService {
 
 	public PessoaService(final PessoaManager pessoaManager) throws Exception {
 		if (Objects.isNull(pessoaManager)) {
-			throw new Exception("Gerenciador de pessoas não pode ser nulo!");
+			throw new Exception("Gerenciador de pessoas está nulo.");
 		}
 		this.pessoaManager = pessoaManager;
 	}

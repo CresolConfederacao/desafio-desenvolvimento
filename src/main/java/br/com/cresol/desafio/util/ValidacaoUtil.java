@@ -16,33 +16,34 @@ public final class ValidacaoUtil {
 	public static void validaParametrosParaPessoas(final String nome, final String cpf, final String email)
 			throws ValidacaoException {
 		if (StringUtils.isBlank(nome)) {
-			throw new ValidacaoException("Necessário informar um nome!");
+			throw new ValidacaoException("Necessário informar o nome da pessoa para a requisição.");
 		}
 		if (!ValidacaoUtil.isCpfValido(cpf)) {
-			throw new ValidacaoException("O CPF informado é inválido: " + String.valueOf(cpf));
+			throw new ValidacaoException(
+					String.format("O CPF informado é inválido <%s>.", StringUtils.isBlank(cpf) ? "sem CPF" : cpf));
 		}
 		if (!ValidacaoUtil.isEmailValido(email)) {
-			throw new ValidacaoException("O e-mail informado é inválido: " + String.valueOf(email));
+			throw new ValidacaoException(String.format("O e-mail informado é inválido <%s>.",
+					StringUtils.isBlank(email) ? "sem e-mail" : email));
 		}
 	}
 
 	public static void validaParametrosParaContrato(final String cpfPessoa, final BigDecimal valorContrato,
 			final Integer quantidadeParcelas) throws ValidacaoException {
 		if (!ValidacaoUtil.isCpfValido(cpfPessoa)) {
-			throw new ValidacaoException(
-					"O CPF de pessoa informado para o contrato é inválido: " + String.valueOf(cpfPessoa));
+			throw new ValidacaoException(String.format("O CPF de pessoa informado para o contrato é inválido <%s>.",
+					StringUtils.isBlank(cpfPessoa) ? "sem CPF" : cpfPessoa));
 		}
 		if (!ValidacaoUtil.isValorContratoValido(valorContrato)) {
-			throw new ValidacaoException(
-					"O valor informado para o contrato é inválido: " + String.valueOf(valorContrato));
+			throw new ValidacaoException("Necessário informar o valor de contrato para a requisição.");
 		}
 		final int validaQuantidadeParcelas = ValidacaoUtil.validaQuantidadeParcelas(quantidadeParcelas);
 		if (validaQuantidadeParcelas < 0) {
-			throw new ValidacaoException("A quantidade de parcelas informada está abaixo do mínimo exigido: "
-					+ String.valueOf(quantidadeParcelas));
+			throw new ValidacaoException("Necessário informar a quantidade de parcelas para a requisição.");
 		} else if (validaQuantidadeParcelas > 0) {
-			throw new ValidacaoException("A quantidade de parcelas informada está acima do máximo permitido: "
-					+ String.valueOf(quantidadeParcelas));
+			throw new ValidacaoException(String.format(
+					"A quantidade de parcelas informada está acima do máximo permitido - máximo <%s>, recebido <%s>.",
+					QUANTIDADE_MAXIMA_DE_PARCELAS, String.valueOf(quantidadeParcelas)));
 		}
 	}
 

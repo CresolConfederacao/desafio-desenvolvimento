@@ -27,7 +27,7 @@ public class ContratoEmprestimoService {
 
 	public ContratoEmprestimoService(final ContratoEmprestimoManager contratoManager) throws Exception {
 		if (Objects.isNull(contratoManager)) {
-			throw new Exception("Gerenciador de contratos não pode ser nulo!");
+			throw new Exception("Gerenciador de contratos está nulo.");
 		}
 		this.contratoManager = contratoManager;
 	}
