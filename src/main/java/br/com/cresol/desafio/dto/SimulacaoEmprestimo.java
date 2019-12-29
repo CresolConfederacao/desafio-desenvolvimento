@@ -24,6 +24,12 @@ public class SimulacaoEmprestimo {
 	private Date dataSimulacao;
 	private Date dataValidade;
 
+	/*
+	 * Atributos adicionais apenas para melhor apresentação visual no "Swagger UI":
+	 */
+	private String dataSimulacaoString;
+	private String dataValidadeString;
+
 	public Long getIdContrato() {
 		return this.idContrato;
 	}
@@ -70,6 +76,7 @@ public class SimulacaoEmprestimo {
 
 	public void setDataSimulacao(final Date dataSimulacao) {
 		this.dataSimulacao = dataSimulacao;
+		this.dataSimulacaoString = (this.dataSimulacao != null ? String.valueOf(this.dataSimulacao) : null);
 	}
 
 	public Date getDataValidade() {
@@ -78,5 +85,14 @@ public class SimulacaoEmprestimo {
 
 	public void setDataValidade(final Date dataValidade) {
 		this.dataValidade = dataValidade;
+		this.dataValidadeString = (this.dataValidade != null ? String.valueOf(this.dataValidade) : null);
+	}
+
+	public String getDataSimulacaoString() {
+		return this.dataSimulacaoString;
+	}
+
+	public String getDataValidadeString() {
+		return this.dataValidadeString;
 	}
 }
