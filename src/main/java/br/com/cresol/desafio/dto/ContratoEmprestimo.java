@@ -3,39 +3,56 @@ package br.com.cresol.desafio.dto;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * @author evandro
- *
- */
-public class SimulacaoEmprestimo {
+public class ContratoEmprestimo {
 
 	@Override
 	public String toString() {
 		return String.format(
-				"SimulacaoEmprestimo [idContrato=%s, valorContrato=%s, quantidadeParcelas=%s, valorParcelas=%s, taxaJuros=%s, dataSimulacao=%s, dataValidade=%s]",
-				idContrato, valorContrato, quantidadeParcelas, valorParcelas, taxaJuros, dataSimulacao, dataValidade);
+				"ContratoEmprestimo [idContrato=%s, codDataIdContrato=%s, codSequenciaIdContrato=%s, cpfPessoa=%s, valorContrato=%s, quantidadeParcelas=%s, valorParcelas=%s, taxaJuros=%s, dataSimulacao=%s, dataValidade=%s]",
+				idContrato, codDataIdContrato, codSequenciaIdContrato, cpfPessoa, valorContrato, quantidadeParcelas,
+				valorParcelas, taxaJuros, dataSimulacao, dataValidade);
 	}
 
-	private Long idContrato;
+	private final long idContrato;
+	private final int codDataIdContrato;
+	private final int codSequenciaIdContrato;
+
+	private String cpfPessoa;
 	private BigDecimal valorContrato;
 	private Integer quantidadeParcelas;
+
 	private BigDecimal valorParcelas;
 	private BigDecimal taxaJuros;
-	private Date dataSimulacao;
+
+	private final Date dataSimulacao;
 	private Date dataValidade;
 
-	/*
-	 * Atributos adicionais apenas para melhor apresentação visual no "Swagger UI":
-	 */
-	private String dataSimulacaoString;
-	private String dataValidadeString;
+	public ContratoEmprestimo(final long idContrato, final int codDataIdContrato, final int codSequenciaIdContrato,
+			final Date dataSimulacao) {
+		this.idContrato = idContrato;
+		this.codDataIdContrato = codDataIdContrato;
+		this.codSequenciaIdContrato = codSequenciaIdContrato;
+		this.dataSimulacao = dataSimulacao;
+	}
 
-	public Long getIdContrato() {
+	public long getIdContrato() {
 		return this.idContrato;
 	}
 
-	public void setIdContrato(final Long idContrato) {
-		this.idContrato = idContrato;
+	public int getCodDataIdContrato() {
+		return this.codDataIdContrato;
+	}
+
+	public int getCodSequenciaIdContrato() {
+		return this.codSequenciaIdContrato;
+	}
+
+	public String getCpfPessoa() {
+		return this.cpfPessoa;
+	}
+
+	public void setCpfPessoa(final String cpfPessoa) {
+		this.cpfPessoa = cpfPessoa;
 	}
 
 	public BigDecimal getValorContrato() {
@@ -74,25 +91,11 @@ public class SimulacaoEmprestimo {
 		return this.dataSimulacao;
 	}
 
-	public void setDataSimulacao(final Date dataSimulacao) {
-		this.dataSimulacao = dataSimulacao;
-		this.dataSimulacaoString = (this.dataSimulacao != null ? String.valueOf(this.dataSimulacao) : null);
-	}
-
 	public Date getDataValidade() {
 		return this.dataValidade;
 	}
 
 	public void setDataValidade(final Date dataValidade) {
 		this.dataValidade = dataValidade;
-		this.dataValidadeString = (this.dataValidade != null ? String.valueOf(this.dataValidade) : null);
-	}
-
-	public String getDataSimulacaoString() {
-		return this.dataSimulacaoString;
-	}
-
-	public String getDataValidadeString() {
-		return this.dataValidadeString;
 	}
 }
